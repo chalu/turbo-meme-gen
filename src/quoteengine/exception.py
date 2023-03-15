@@ -1,3 +1,4 @@
+"""Exceptions that can br raised while handling quote files"""
 
 from os import path as ospath
 
@@ -37,7 +38,7 @@ class InvalidFileException(QuotesFileException):
 
     def __str__(self) -> str:
         return self.message
-    
+
 class UnsupportedFileException(QuotesFileException):
     """Exception raised if the file is not a supported file format.
 
