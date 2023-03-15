@@ -1,12 +1,11 @@
 """Ingest and format quotes from CSV files"""
 
 from typing import List
-from os import path as ospath
-
 from docx import Document as DocX
 
 from .quote import Quote
 from .ingestor import QuoteIngestor
+from .exception import InvalidFileException, UnsupportedFileException
 
 
 class DocxQuotesIngestor(QuoteIngestor):
@@ -33,8 +32,9 @@ class DocxQuotesIngestor(QuoteIngestor):
                     if parts and len(parts) == 2:
                         quote = Quote(parts[0], parts[1])
                         parsed.append(quote)
-            except (OSError, IOError):
-                head, tail = ospath.split(path)
-                print(f"Failed to locate, open or read from: {tail} in {head}")
+            except (OSError, IOError) as err:
+                raise InvalidFileException(path) from err
+        else:
+            raise UnsupportedFileException(path)
 
         return parsed

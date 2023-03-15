@@ -1,13 +1,13 @@
 """Ingest and format quotes from supported files"""
 
 from typing import List
-from os import path as ospath
 
 from .quote import Quote
 from .ingestor import QuoteIngestor
 from .csv_ingestor import CSVQuotesIngestor as CsvIngest
 from .docx_ingestor import DocxQuotesIngestor as DocxIngest
 from .text_ingestor import TextQuotesIngestor as TextIngest
+from .exception import InvalidFileException, UnsupportedFileException
 
 
 class SmartIngestor(QuoteIngestor):
@@ -46,8 +46,9 @@ class SmartIngestor(QuoteIngestor):
                 ingestor = mapping[ext]
                 if ingestor is not None:
                     quotes = ingestor.parse(path)
-            except (OSError, IOError):
-                head, tail = ospath.split(path)
-                print(f"Failed to locate, open or read from: {tail} in {head}")
+            except (OSError, IOError) as err:
+                raise InvalidFileException(path) from err
+        else:
+            raise UnsupportedFileException(path)
 
         return quotes
