@@ -1,7 +1,7 @@
 """
 The quote engine module
 Handles ingesting, parsing and properly formatting quotes from
-a variety of file formates into a unified Quote model object
+a variety of file formats into a unified Quote model object
 """
 
 from .quote import Quote

@@ -3,6 +3,7 @@
 import os
 import random
 
+from memeengine import MemeEngine
 from quoteengine import SmartIngestor, Quote
 
 # @TODO Import your Ingestor and MemeEngine classes
