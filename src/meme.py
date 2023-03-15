@@ -1,5 +1,9 @@
+"""Turbo meme generator - core entrypoint"""
+
 import os
 import random
+
+from quoteengine import SmartIngestor, Quote
 
 # @TODO Import your Ingestor and MemeEngine classes
 
@@ -25,14 +29,14 @@ def generate_meme(path=None, body=None, author=None):
                        './_data/DogQuotes/DogQuotesPDF.pdf',
                        './_data/DogQuotes/DogQuotesCSV.csv']
         quotes = []
-        for f in quote_files:
-            quotes.extend(Ingestor.parse(f))
+        for file in quote_files:
+            quotes.extend(SmartIngestor.parse(file))
 
         quote = random.choice(quotes)
     else:
         if author is None:
-            raise Exception('Author Required if Body is Used')
-        quote = QuoteModel(body, author)
+            raise ValueError('Author is required if Body is Used')
+        quote = Quote(body, author)
 
     meme = MemeEngine('./tmp')
     path = meme.make_meme(img, quote.body, quote.author)
