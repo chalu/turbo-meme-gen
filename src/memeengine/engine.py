@@ -4,7 +4,6 @@ from datetime import datetime
 from os import path as ospath
 
 from PIL import Image
-from quoteengine import Quote
 from .exceptions import MemeGenerationException
 
 
@@ -16,16 +15,15 @@ class Engine():
     def __init__(self, base='./tmp') -> None:
         self.base_dir = base
 
-    def resize(self, img: Image) -> Image:
+    def resize(self, img: Image, width: int) -> Image:
         """Resizes the image to a max with of 500px, while keeping the aspect ratio"""
 
-        wpercent = self._max_width / float(img.size[0])
+        wpercent = width / float(img.size[0])
         hsize = int((float(img.size[1]) * float(wpercent)))
-        resized = img.resize((self._max_width, hsize),
-                             Image.Resampling.LANCZOS)
+        resized = img.resize((width, hsize), Image.Resampling.LANCZOS)
         return resized
 
-    def generate(self, img_path: str, quote: Quote) -> str:
+    def generate(self, img_path: str, quote: str, author: str, width=500) -> str:
         """
         Generates a meme using the provided image file and quote
         """
@@ -33,7 +31,7 @@ class Engine():
         generated = ""
         try:
             img = Image.open(img_path)
-            img = self.resize(img)
+            img = self.resize(img, min(width, self._max_width))
 
             _, fext = ospath.splitext(img_path)
             meme_file = ospath.join(

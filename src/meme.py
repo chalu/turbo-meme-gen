@@ -40,7 +40,7 @@ def generate_meme(path=None, body=None, author=None):
         quote = Quote(body, author)
 
     meme = MemeEngine('./generated/memes')
-    generated_img = meme.generate(img, quote)
+    generated_img = meme.generate(img, quote.body, quote.author)
     print(generated_img)
     return generated_img
 
