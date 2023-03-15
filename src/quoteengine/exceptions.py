@@ -1,4 +1,4 @@
-"""Exceptions that can br raised while handling quote files"""
+"""Exceptions that can be raised while handling quote files"""
 
 from os import path as ospath
 

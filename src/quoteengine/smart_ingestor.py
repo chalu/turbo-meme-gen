@@ -7,7 +7,7 @@ from .ingestor import QuoteIngestor
 from .csv_ingestor import CSVQuotesIngestor as CsvIngest
 from .docx_ingestor import DocxQuotesIngestor as DocxIngest
 from .text_ingestor import TextQuotesIngestor as TextIngest
-from .exception import InvalidFileException, UnsupportedFileException
+from .exceptions import InvalidFileException, UnsupportedFileException
 
 
 class SmartIngestor(QuoteIngestor):
