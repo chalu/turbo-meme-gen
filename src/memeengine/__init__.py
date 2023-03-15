@@ -5,3 +5,4 @@ and generating memes
 """
 
 from .engine import Engine as MemeEngine
+from .exceptions import MemeEngineException, MemeGenerationException
