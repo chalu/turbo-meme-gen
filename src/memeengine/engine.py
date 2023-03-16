@@ -20,10 +20,10 @@ class Engine():
     def resize(self, img: Image, width: int) -> Image:
         """Resizes the image to a max with of 500px, while keeping the aspect ratio"""
 
-        wpercent = width / float(img.size[0])
+        capped_width = min(width, self._max_width)
+        wpercent = capped_width / float(img.size[0])
         hsize = int((float(img.size[1]) * float(wpercent)))
-        resized = img.resize((width, hsize), Image.Resampling.LANCZOS)
-        return resized
+        return img.resize((capped_width, hsize), Image.Resampling.LANCZOS)
 
     def draw(self, img: Image, text) -> Image:
         """Draw the quote over the image"""
@@ -58,7 +58,7 @@ class Engine():
             img = Image.open(img_path)
             text = f"{quote}\n- {author}"
 
-            img = self.resize(img, min(width, self._max_width))
+            img = self.resize(img, width)
             img = self.draw(img, text)
 
             _, fext = ospath.splitext(img_path)
