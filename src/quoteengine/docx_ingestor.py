@@ -5,7 +5,7 @@ from docx import Document as DocX
 
 from .quote import Quote
 from .ingestor import QuoteIngestor
-from .exception import InvalidFileException, UnsupportedFileException
+from .exceptions import InvalidFileException, UnsupportedFileException
 
 
 class DocxQuotesIngestor(QuoteIngestor):

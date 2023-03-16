@@ -5,7 +5,7 @@ from typing import List
 
 from .quote import Quote
 from .ingestor import QuoteIngestor
-from .exception import InvalidFileException, UnsupportedFileException
+from .exceptions import InvalidFileException, UnsupportedFileException
 
 class TextQuotesIngestor(QuoteIngestor):
     """Quotes ingestor from text files"""
