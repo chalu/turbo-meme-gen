@@ -13,11 +13,11 @@ class Engine():
     _max_width = 500
     _font_path = './_data/fonts/RobotoMono-Regular.ttf'
 
-    def __init__(self, base='./tmp') -> None:
-        self.base_dir = base
+    def __init__(self, out_dir='./tmp') -> None:
+        self.out_dir = out_dir
         self.txt_font = ImageFont.truetype(self._font_path, 20)
 
-    def _resize(self, img: Image, width: int) -> Image:
+    def resize(self, img: Image, width: int) -> Image:
         """Resizes the image to a max with of 500px, while keeping the aspect ratio"""
 
         wpercent = width / float(img.size[0])
@@ -25,7 +25,7 @@ class Engine():
         resized = img.resize((width, hsize), Image.Resampling.LANCZOS)
         return resized
 
-    def _draw(self, img: Image, text) -> Image:
+    def draw(self, img: Image, text) -> Image:
         """Draw the quote over the image"""
         img_w, img_h = img.size
 
@@ -58,14 +58,14 @@ class Engine():
             img = Image.open(img_path)
             text = f"{quote}\n- {author}"
 
-            img = self._resize(img, min(width, self._max_width))
-            img = self._draw(img, text)
+            img = self.resize(img, min(width, self._max_width))
+            img = self.draw(img, text)
 
             _, fext = ospath.splitext(img_path)
             fname = f"{datetime.now().timestamp()}{fext}"
-            if ospath.exists(self.base_dir) is False:
-                makedirs(self.base_dir)
-            meme_file = ospath.join(self.base_dir, fname)
+            if ospath.exists(self.out_dir) is False:
+                makedirs(self.out_dir)
+            meme_file = ospath.join(self.out_dir, fname)
 
             img.save(meme_file)
             generated = meme_file
