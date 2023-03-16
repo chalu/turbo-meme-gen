@@ -5,6 +5,7 @@ from typing import List
 from .quote import Quote
 from .ingestor import QuoteIngestor
 from .csv_ingestor import CSVQuotesIngestor as CsvIngest
+from .pdf_ingestor import PDFQuotesIngestor as PDFIngest
 from .docx_ingestor import DocxQuotesIngestor as DocxIngest
 from .text_ingestor import TextQuotesIngestor as TextIngest
 from .exceptions import InvalidFileException, UnsupportedFileException
@@ -15,7 +16,7 @@ class SmartIngestor(QuoteIngestor):
 
     @classmethod
     def ingestors(cls) -> List[QuoteIngestor]:
-        return [TextIngest, CsvIngest, DocxIngest]
+        return [TextIngest, CsvIngest, DocxIngest, PDFIngest]
 
     @classmethod
     def whitelist(cls) -> List[str]:

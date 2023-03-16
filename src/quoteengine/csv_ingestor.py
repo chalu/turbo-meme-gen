@@ -27,7 +27,7 @@ class CSVQuotesIngestor(QuoteIngestor):
                 with open(path, encoding="UTF-8") as file:
                     data = reader(file, delimiter=',',
                                   fieldnames=['body', 'author'])
-                    # move intot the rows with values, skipping the header
+                    # move into the rows with values, skip the header row
                     next(data)
                     for row in data:
                         quote = Quote(row['body'].strip(),
