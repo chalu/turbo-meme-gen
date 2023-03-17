@@ -1,11 +1,12 @@
 import os
+import sys
 import random
 import requests
 from datetime import datetime
 
 from utilities import Utils
 from memeengine import MemeEngine
-from flask import Flask, render_template, abort, request as req
+from flask import Flask, render_template, request as req
 
 _IMAGES_DIR = "./_data/photos/dog/"
 _QUOTES_DIR = "./_data/DogQuotes/"
@@ -32,6 +33,11 @@ def meme_rand():
     img = random.choice(imgs)
     quote = random.choice(quotes)
     path = meme.generate(img, quote.body, quote.author)
+    
+    if req.content_type == 'application/json':
+        url = f"{req.base_url.strip('/')}{path.strip('.')}"
+        return {"meme": url}
+    
     return render_template('meme.html', path=path)
 
 
@@ -47,9 +53,18 @@ def meme_post():
 
     img = "https://placehold.co/500x500?text=Something+Went+Wrong"
 
-    image_url = req.form['image_url'].strip()
-    body  = req.form['body'].strip()
-    author = req.form['author'].strip()
+    body = None
+    author = None
+    image_url = None
+
+    if req.content_type == 'application/json':
+        image_url = req.json['image_url'].strip()
+        body  = req.json['body'].strip()
+        author = req.json['author'].strip()
+    elif req.content_type == "application/x-www-form-urlencoded":
+        image_url = req.form['image_url'].strip()
+        body  = req.form['body'].strip()
+        author = req.form['author'].strip()
 
     img_file = None
     r = requests.get(image_url, stream=True, allow_redirects=True)
@@ -63,7 +78,11 @@ def meme_post():
         img = meme.generate(img_file, body, author)
         os.remove(img_file)
 
+    if req.content_type == 'application/json':
+        url = f"{req.base_url.split('/create')[0]}{img.strip('.')}"
+        return {"meme": url}
+
     return render_template('meme.html', path=img)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8080)

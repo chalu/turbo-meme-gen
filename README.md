@@ -18,15 +18,22 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
     -   run `python3 meme.py --body "nice quote" --author "Someone" --path "relative/path/to/img.jpg|jpeg|png|gif|..."` to generate a meme using the provided image and quote body/author.
 
 2.  Web App - generate memes on the web
-    -   Go to http://url-of-the-app.domain
+    -   Go to <SERVER>
     -   Click the **Generate** button to see randonly generated memes or use the **Make Yours** form to specify a quote and an image to generate a meme from
 
 3.  REST API
-    -   Make a `POST` request to http://url-of-the-app.domain/api with a JSON body containing the quote and image URL like
+    -   Make a `GET` request to <SERVER> E.g `curl -H "Content-type: application/json" "<SERVER>"`
+    -   Make a `POST` request to <SERVER> with a JSON body containing the quote, author and image URL like <br>
+    ```bash
+    curl -X POST "<SERVER>/create" \
+    -H "Content-type: application/json" \
+    -d '{"image_url": "https://dailypost.ng/wp-content/uploads/2023/02/Peter-Obi.jpg", "body": "Vote mama, papa, pikin", "author": "Peter Obi"}'
+    ```
+    <br>
+    Both the `POST` and `GET` requests should return a response payload like <br>
     ```json
     {
-        quote: "some fancy saying - author",
-        img: "url-to-the-image-somewhere-online"
+        "meme": "<SERVER>/static/meme-image.jpg"
     }
     ```
 
