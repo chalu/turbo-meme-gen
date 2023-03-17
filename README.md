@@ -34,12 +34,18 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
 ---
 > **Images** from which to generate the memes can be of any of the popular image formats. So far, we've tested with .jpg | jpeg, and .png
 
-<br >
-Under the hood, the system uses a class heirarchy strutured after the strategy design pattern to handle parsing and reading of quotes from files. It then draws a random quote on a random/provided image, which it returns as a meme with a max-height of `500px`
+### Modules
 
+Under the hood, the system uses a number of submodules to handle specific aspects of generating and serving memes.
+
+*   **QuoteEngine Module** - Uses a class heirarchy strutured after the strategy design pattern to handle parsing and reading of quotes from files. It's job is to return a list of `Quotes` from supported files, or raise an exception if something goes wrong. It relies on some 3rd party libraries/tools (like python-docx and xpdf) to parse files
 <br >
 
 ![quote parsers](./docs/ingestor-strategy.png "quotes parsers")
+
+*   **MemeEngine Module** - Uses the Pillow library to generate memes. It draws a random quote on a random/provided image, which it returns as a meme with a max-height of `500px`
+
+*   **Entrypoints** - Though not typical modules, meme.py and app.py are entrypoints for generating and serving memes from the comand line and the web, respectively
 
 ## Entending It - Adding A Parser/Ingestor for YAML Files
 
