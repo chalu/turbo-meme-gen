@@ -25,6 +25,7 @@ class TextQuotesIngestor(QuoteIngestor):
         if TextQuotesIngestor.handles(path):
             try:
                 with open(path, encoding="UTF-8") as file:
+                    invalid_chars = TextQuotesIngestor.invalids()
                     for line in file:
 
                         text = line
@@ -32,7 +33,7 @@ class TextQuotesIngestor(QuoteIngestor):
                             # text = rtf_to_text(line)
                             text = line
 
-                        parts = [txt.strip() for txt in text.split("-")]
+                        parts = [txt.strip(invalid_chars) for txt in text.split("-")]
                         quote = Quote(parts[0], parts[1])
                         parsed.append(quote)
             except (OSError, IOError) as err:

@@ -9,9 +9,7 @@ from .quote import Quote
 class QuoteIngestor(ABC):
     """An abstract ingestor interface that concrete ingestors must implement"""
 
-    # TODO why does @property have to come after @classmethod for ClassName.invalids to work
     @classmethod
-    @property
     def invalids(cls) -> str:
         """Invalid leading/lagging characters that the ingestor can strip out of quotes"""
         return " \"\'"

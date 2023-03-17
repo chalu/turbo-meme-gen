@@ -48,8 +48,9 @@ class PDFQuotesIngestor(QuoteIngestor):
                 )
 
                 with open(temp_txt_file, encoding="UTF-8") as file:
+                    invalid_chars = PDFQuotesIngestor.invalids()
                     for line in file:
-                        parts = [pt.strip(PDFQuotesIngestor.invalids) for pt in line.split("-")]
+                        parts = [pt.strip(invalid_chars) for pt in line.split("-")]
                         if len(parts) < 2:
                             continue
 

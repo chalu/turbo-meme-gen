@@ -29,9 +29,11 @@ class CSVQuotesIngestor(QuoteIngestor):
                                   fieldnames=['body', 'author'])
                     # move into the rows with values, skip the header row
                     next(data)
+
+                    invalid_chars = CSVQuotesIngestor.invalids()
                     for row in data:
-                        quote = Quote(row['body'].strip(),
-                                      row['author'].strip())
+                        quote = Quote(row['body'].strip(invalid_chars),
+                                      row['author'].strip(invalid_chars))
                         parsed.append(quote)
             except (OSError, IOError) as err:
                 raise InvalidFileException(path) from err
