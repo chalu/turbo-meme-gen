@@ -12,20 +12,20 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
 ### Usage:
 
 1.  CLI - generate memes from the command line
-    -   clone the [github repo](https://github.com/chalu/turbo-meme-gen)
+    -   clone the [github repo](https://github.com/chalu/turbo-meme-gen) and cd into the `src` folder inside the repo's folder
     -   run `pip install -r requirements.txt` to installs dependencies and setup the environment
     -   run `python3 meme.py` to generate a random meme from our collection of images and quotes. You can also use the `--quotes` and `--images` to specify folders containing your collection of quotes and images to generate from. See the **How It Works** section for details on how the quotes files are to be structured if you plan to extend the system or provide custom quotes with the `--quotes` option
     -   run `python3 meme.py --body "nice quote" --author "Someone" --path "relative/path/to/img.jpg|jpeg|png|gif|..."` to generate a meme using the provided image and quote body/author.
 
 2.  Web App - generate memes on the web
-    -   Go to <SERVER>
+    -   Go to https://turbo-meme-generator.onrender.com
     -   Click the **Generate** button to see randonly generated memes or use the **Make Yours** form to specify a quote and an image to generate a meme from
 
 3.  REST API
-    -   Make a `GET` request to <SERVER> E.g `curl -H "Content-type: application/json" "<SERVER>"`
-    -   Make a `POST` request to <SERVER> with a JSON body containing the quote, author and image URL like <br>
+    -   Make a `GET` request to https://turbo-meme-generator.onrender.com E.g `curl -H "Content-type: application/json" "https://turbo-meme-generator.onrender.com"`
+    -   Make a `POST` request to https://turbo-meme-generator.onrender.com with a JSON body containing the quote, author and image URL like <br>
     ```bash
-    curl -X POST "<SERVER>/create" \
+    curl -X POST "https://turbo-meme-generator.onrender.com/create" \
     -H "Content-type: application/json" \
     -d '{"image_url": "https://dailypost.ng/wp-content/uploads/2023/02/Peter-Obi.jpg", "body": "Vote mama, papa, pikin", "author": "Peter Obi"}'
     ```
@@ -33,7 +33,7 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
     Both the `POST` and `GET` requests should return a response payload like <br>
     ```json
     {
-        "meme": "<SERVER>/static/meme-image.jpg"
+        "meme": "https://turbo-meme-generator.onrender.com/static/meme-image.jpg"
     }
     ```
 
@@ -54,7 +54,7 @@ Under the hood, the system uses a number of submodules to handle specific aspect
 
 *   **MemeEngine Module** - Uses the Pillow library to generate memes. It draws a random quote on a random/provided image, which it returns as a meme with a max-height of `500px`
 
-*   **Entrypoints** - Though not typical modules, meme.py and app.py are entrypoints for generating and serving memes from the comand line and the web, respectively
+*   **Entrypoints** - Though not typical modules, meme.py and app.py aresrc entrypoints for generating and serving memes from the comand line and the web, respectively
 
 ## Entending It - Adding A Parser/Ingestor for YAML Files
 
