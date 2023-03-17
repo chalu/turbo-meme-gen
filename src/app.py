@@ -84,4 +84,4 @@ def meme_post():
     return render_template('meme.html', path=img)
 
 if __name__ == "__main__":
-    app.run(port=8080)
+    app.run()
