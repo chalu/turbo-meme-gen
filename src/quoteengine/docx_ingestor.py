@@ -25,7 +25,7 @@ class DocxQuotesIngestor(QuoteIngestor):
         if DocxQuotesIngestor.handles(path):
             try:
                 doc = DocX(path)
-                invalid_chars = DocxQuotesIngestor.invalids
+                invalid_chars = DocxQuotesIngestor.invalids()
                 for line in doc.paragraphs:
                     parts = [part.strip(invalid_chars)
                              for part in line.text.split("-")]
