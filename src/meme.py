@@ -1,52 +1,38 @@
 """Turbo meme generator - core entrypoint"""
-
-import os
 import random
+from argparse import ArgumentParser
 
+from utilities import Utils
 from memeengine import MemeEngine
-from quoteengine import SmartIngestor, Quote
 
-def generate_meme(path=None, body=None, author=None):
+_IMAGES_DIR = "./_data/photos/dog/"
+_QUOTES_DIR = "./_data/DogQuotes/"
+
+def generate_meme(path=None, body=None, author=None, images=_IMAGES_DIR, quotes=_QUOTES_DIR):
     """ Generate a meme given an path and a quote """
-    img = None
-    quote = None
 
-    if path is None:
-        images = "./_data/photos/dog/"
-        imgs = []
-        for root, dirs, files in os.walk(images):
-            imgs = [os.path.join(root, name) for name in files]
+    images_dir = _IMAGES_DIR if images is None else images
+    imgs = Utils.get_imgs_for_meme(images_dir, path)
+    img = random.choice(imgs)
 
-        img = random.choice(imgs)
-    else:
-        img = path[0]
+    quotes_dir = _QUOTES_DIR if quotes is None else quotes
+    qts = Utils.get_quotes_for_meme(quotes_dir, body, author)
+    quote = random.choice(qts)
 
-    if body is None:
-        quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
-                       './_data/DogQuotes/DogQuotesDOCX.docx',
-                    #    './_data/DogQuotes/DogQuotesPDF.pdf',
-                       './_data/DogQuotes/DogQuotesCSV.csv']
-        quotes = []
-        for file in quote_files:
-            quotes.extend(SmartIngestor.parse(file))
-
-        quote = random.choice(quotes)
-    else:
-        if author is None:
-            raise ValueError('Author is required if Body is Used')
-        quote = Quote(body, author)
-
-    meme = MemeEngine('./generated/memes')
+    meme = MemeEngine('./static')
     generated_img = meme.generate(img, quote.body, quote.author)
-    print(generated_img)
     return generated_img
 
 
 if __name__ == "__main__":
-    # @TODO Use ArgumentParser to parse the following CLI arguments
-    # path - path to an image file
-    # body - quote body to add to the image
-    # author - quote author to add to the image
-    # args = None
-    # print(generate_meme(args.path, args.body, args.author))
-    generate_meme()
+
+    cli = ArgumentParser()
+    cli.add_argument('-p', '--path', help="Relative path to the image to generate the meme with")
+    cli.add_argument('-b', '--body', help="The text body to use as quote message")
+    cli.add_argument('-a', '--author', help="The author of the quote. Required if a quote is specified with -b | --body")
+    cli.add_argument('--images', help="Relative directory path to your collection of images")
+    cli.add_argument('--quotes', help="Relative directory path to your collection of quotes")
+
+    args = cli.parse_args()
+    generated = generate_meme(args.path, args.body, args.author, args.images, args.quotes)
+    print(generated)
