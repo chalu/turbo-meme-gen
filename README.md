@@ -6,14 +6,16 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
 
 ![meme sample](./docs/meme-1.jpg "sample meme")
 ![meme sample](./docs/meme-2.jpg "sample meme")
+<br>
+![meme sample](./docs/meme-3.jpg "sample meme")
 
 ### Usage:
 
 1.  CLI - generate memes from the command line
     -   clone the [github repo](https://github.com/chalu/turbo-meme-gen)
     -   run `pip install -r requirements.txt` to installs dependencies and setup the environment
-    -   run `python3 meme.py` to generate a random meme from our collection of images and quotes. You can also use the `--quotes-dir` and `--images-dir` to specify folders containing your collection of quotes and images to generate a random quote. Finally, you can use the `--count` option to indicate how many memes to randomly generate. See the **How It Works** section for details on how the quotes files are to be structured if you intend to use the `--quotes-dir` option
-    -   run `python3 meme.py --qoute "nice quote - author" --img "relative/path/to/img.jpg|jpeg|png|gif"` to generate a meme using the provided image and quote. The `--count` option will be ignored (if used) in this scenario of generating a single meme   
+    -   run `python3 meme.py` to generate a random meme from our collection of images and quotes. You can also use the `--quotes` and `--images` to specify folders containing your collection of quotes and images to generate from. See the **How It Works** section for details on how the quotes files are to be structured if you plan to extend the system or provide custom quotes with the `--quotes` option
+    -   run `python3 meme.py --body "nice quote" --author "Someone" --path "relative/path/to/img.jpg|jpeg|png|gif|..."` to generate a meme using the provided image and quote body/author.
 
 2.  Web App - generate memes on the web
     -   Go to http://url-of-the-app.domain
@@ -32,7 +34,7 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
 
 > **Quotes files** are simple files containing a quote per line. A line of quote is a simple text where the **-** character separates the text of the quote from the author. E.g a .txt or .pdf quotes file can have multiple lines like :point_down: :point_down:  <br > `People will never forget how you made them feel - Maya Angelou` <br >  Out of the box, supported quote file formats are .txt, .pdf, .csv, and .docx
 ---
-> **Images** from which to generate the memes can be of any of the popular image formats. So far, we've tested with .jpg | jpeg, and .png
+> **Images** from which to generate the memes can be any of the popular image formats. So far, we've tested with .jpg | jpeg, and .png, but I don't see why webp won't be supported :grin:
 
 ### Modules
 
@@ -60,7 +62,7 @@ Under the hood, the system uses a number of submodules to handle specific aspect
         return [..., YAMLIngest]
     ```
 
-3.  Add your YAML quotes file into the `src/_data` folder of the codebase and proceed to generate random memes, which should include quotes from your YAML file. Alternatively, run the meme generator with the `--quotes-dir` option pointing to a directory containing your YAML quotes file
+3.  Add your YAML quotes file into the `src/_data` folder of the codebase and proceed to generate random memes, which should include quotes from your YAML file. Alternatively, run the meme generator with the `--quotes` option pointing to a directory containing your YAML quotes file
 
 <br>
 
