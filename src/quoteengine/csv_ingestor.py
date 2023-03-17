@@ -1,4 +1,4 @@
-"""Ingest and format quotes from CSV files"""
+"""Ingest and format quotes from CSV files."""
 
 from typing import List
 from csv import DictReader as reader
@@ -9,18 +9,16 @@ from .exceptions import InvalidFileException, UnsupportedFileException
 
 
 class CSVQuotesIngestor(QuoteIngestor):
-    """Quotes ingestor from CSV files"""
+    """Quotes ingestor from CSV files."""
 
     @classmethod
     def whitelist(cls) -> List[str]:
-        """Gets the allowed file extensions for ingesting quotes from CSV files"""
-
+        """Get allowed CSV file extensions."""
         return ["csv"]
 
     @classmethod
     def parse(cls, path: str) -> List[Quote]:
-        """Reads quotes from the path if it is a CSV file"""
-
+        """Read quotes from path if it is a CSV file."""
         parsed = []
         if CSVQuotesIngestor.handles(path):
             try:

@@ -1,4 +1,4 @@
-"""Ingest and format quotes from supported files"""
+"""Ingest and format quotes from supported files."""
 
 from typing import List
 
@@ -12,16 +12,16 @@ from .exceptions import InvalidFileException, UnsupportedFileException
 
 
 class SmartIngestor(QuoteIngestor):
-    """Quotes ingestor from any/all supported file"""
+    """Quotes ingestor from any/all supported file."""
 
     @classmethod
     def ingestors(cls) -> List[QuoteIngestor]:
+        """List of supported ingestors."""
         return [TextIngest, CsvIngest, DocxIngest, PDFIngest]
 
     @classmethod
     def whitelist(cls) -> List[str]:
-        """Gets the allowed file extensions for ingesting quotes from text files"""
-
+        """Get all supported file extensions."""
         return [
             ext
             for ing in SmartIngestor.ingestors()
@@ -30,15 +30,14 @@ class SmartIngestor(QuoteIngestor):
 
     @classmethod
     def parse(cls, path: str) -> List[Quote]:
-        """Reads quotes from the path if it is a supported file"""
-
+        """Read quotes from path if it is a supported file."""
         quotes = []
         if SmartIngestor.handles(path):
             try:
                 # map extensions to their ingestors
                 # e.g csv:CsvIngest, txt:TextIngest, and rtf:TextIngest
                 mapping = {
-                    ext:ing
+                    ext: ing
                     for ing in SmartIngestor.ingestors()
                     for ext in ing.whitelist()
                 }

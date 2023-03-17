@@ -1,4 +1,4 @@
-"""Ingest and format quotes from text files"""
+"""Ingest and format quotes from text files."""
 
 from typing import List
 # from striprtf.striprtf import rtf_to_text
@@ -7,19 +7,18 @@ from .quote import Quote
 from .ingestor import QuoteIngestor
 from .exceptions import InvalidFileException, UnsupportedFileException
 
+
 class TextQuotesIngestor(QuoteIngestor):
-    """Quotes ingestor from text files"""
+    """Quotes ingestor from text files."""
 
     @classmethod
     def whitelist(cls) -> List[str]:
-        """Gets the allowed file extensions for ingesting quotes from text files"""
-
+        """Get allowed TEXT file extensions."""
         return ["txt", "rtf"]
 
     @classmethod
     def parse(cls, path: str) -> List[Quote]:
-        """Reads quotes from the path if it is a txt file"""
-
+        """Read quotes from path if it is a txt file."""
         parsed = []
         is_rtf = TextQuotesIngestor.extention(path) == 'rtf'
         if TextQuotesIngestor.handles(path):
@@ -33,7 +32,10 @@ class TextQuotesIngestor(QuoteIngestor):
                             # text = rtf_to_text(line)
                             text = line
 
-                        parts = [txt.strip(invalid_chars) for txt in text.split("-")]
+                        parts = [
+                            txt.strip(invalid_chars)
+                            for txt in text.split("-")
+                        ]
                         quote = Quote(parts[0], parts[1])
                         parsed.append(quote)
             except (OSError, IOError) as err:
@@ -42,4 +44,3 @@ class TextQuotesIngestor(QuoteIngestor):
             raise UnsupportedFileException(path)
 
         return parsed
-        

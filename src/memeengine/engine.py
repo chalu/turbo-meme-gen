@@ -1,4 +1,8 @@
-"""The meme engine module, responsible for manipulating and drawing text onto images"""
+"""
+The Meme Engine module.
+
+Responsible for manipulating and drawing text onto images
+"""
 
 from datetime import datetime
 from os import path as ospath, makedirs
@@ -8,25 +12,25 @@ from .exceptions import MemeGenerationException
 
 
 class Engine():
-    """Engine for generating memes from images and texts"""
+    """Engine for generating memes from images and texts."""
 
     _max_width = 500
     _font_path = './_data/fonts/RobotoMono-Regular.ttf'
 
     def __init__(self, out_dir='./tmp') -> None:
+        """Initialize the engine."""
         self.out_dir = out_dir
         self.txt_font = ImageFont.truetype(self._font_path, 20)
 
     def resize(self, img: Image, width: int) -> Image:
-        """Resizes the image to a max with of 500px, while keeping the aspect ratio"""
-
+        """Resize the image to 500px max. Kepps the aspect ratio."""
         capped_width = min(width, self._max_width)
         wpercent = capped_width / float(img.size[0])
         hsize = int((float(img.size[1]) * float(wpercent)))
         return img.resize((capped_width, hsize), Image.Resampling.LANCZOS)
 
     def draw(self, img: Image, text) -> Image:
-        """Draw the quote over the image"""
+        """Draw the quote over the image."""
         img_w, img_h = img.size
 
         draw = ImageDraw.Draw(img)
@@ -48,11 +52,10 @@ class Engine():
 
         return img
 
-    def generate(self, img_path: str, quote: str, author: str, width=500) -> str:
-        """
-        Generates a meme using the provided image file and quote
-        """
-
+    def generate(
+            self, img_path: str, quote: str, author: str, width=500
+    ) -> str:
+        """Generate a meme using the provided image file and quote."""
         generated = ""
         try:
             img = Image.open(img_path)
