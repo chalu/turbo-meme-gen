@@ -10,9 +10,8 @@ class Utils():
         quotes = []
 
         if body is None:
-            
             quote_files = []
-            for root, dirs, files in os.walk(quotes_dir):
+            for root, _, files in os.walk(quotes_dir):
                 quote_files = [os.path.join(root, name) for name in files]
 
             for file in quote_files:
@@ -31,7 +30,7 @@ class Utils():
         if path is None:
             # images_dir will be "./_data/photos/dog/" or
             # a directory of custom images specified by the user
-            for root, dirs, files in os.walk(images_dir):
+            for root, _, files in os.walk(images_dir):
                 # pull all the files
                 imgs = [os.path.join(root, name) for name in files]
                 # only the image files

@@ -15,7 +15,6 @@ class PDFQuotesIngestor(QuoteIngestor):
     Quotes ingestor from PDF files
     Uses subprocess to call the pdftotext program from the xpdf CLI tools.
     See https://www.xpdfreader.com/about.html
-    
     """
 
     @classmethod
@@ -50,10 +49,7 @@ class PDFQuotesIngestor(QuoteIngestor):
 
                 with open(temp_txt_file, encoding="UTF-8") as file:
                     for line in file:
-                        parts = [
-                            pt.strip(PDFQuotesIngestor.invalids) 
-                            for pt in line.split("-")
-                        ]
+                        parts = [pt.strip(PDFQuotesIngestor.invalids) for pt in line.split("-")]
                         if len(parts) < 2:
                             continue
 
