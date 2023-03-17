@@ -22,7 +22,7 @@ class PDFQuotesIngestor(QuoteIngestor):
         """Gets the allowed file extensions for ingesting quotes from PDF files"""
 
         return ["pdf"]
-    
+
     def pdftotext(self, path, out_file):
         #Generate a text rendering of a PDF file in the form of a list of lines.
         args = ['pdftotext', '-layout', path, out_file]

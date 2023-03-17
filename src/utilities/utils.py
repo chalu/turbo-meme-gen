@@ -41,5 +41,5 @@ class Utils():
                 imgs = [path]
             else:
                 raise ValueError("path does not appear to be a valid image file")
-        
+
         return imgs

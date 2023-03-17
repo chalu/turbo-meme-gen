@@ -1,5 +1,4 @@
 import os
-import sys
 import random
 import requests
 from datetime import datetime
@@ -33,7 +32,7 @@ def meme_rand():
     img = random.choice(imgs)
     quote = random.choice(quotes)
     path = meme.generate(img, quote.body, quote.author)
-    
+
     if req.content_type == 'application/json':
         url = f"{req.base_url.strip('/')}{path.strip('.')}"
         return {"meme": url}
