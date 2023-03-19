@@ -38,13 +38,12 @@ class Engine():
         total_h = 0
         longest_w = 0
         longest_text = None
-        wrapped = wrap(text, 30)
 
-        # make sure the auhor (alone) is the last line
-        ending = [ln for ln in wrapped[-1].split('-') if ln.strip() != ""]
-        del wrapped[-1]
-        ending[-1] = f"-{ending[-1]}"
-        wrapped.extend(ending)
+        # wrap text and ensure only author is on last line
+        # @TODO remove author delimeter (i.e -) from quote bodies
+        quote = text.split('-')
+        wrapped = wrap(quote[0], 30)
+        wrapped.extend([f"-{quote[1]}"])
 
         for line in wrapped:
             text_w, text_h = draw.textsize(line, font=self.txt_font)
