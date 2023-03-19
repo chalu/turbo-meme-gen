@@ -39,6 +39,13 @@ class Engine():
         longest_w = 0
         longest_text = None
         wrapped = wrap(text, 30)
+
+        # make sure the auhor (alone) is the last line
+        ending = [ln for ln in wrapped[-1].split('-') if ln.strip() != ""]
+        del wrapped[-1]
+        ending[-1] = f"-{ending[-1]}"
+        wrapped.extend(ending)
+
         for line in wrapped:
             text_w, text_h = draw.textsize(line, font=self.txt_font)
             total_h += text_h
