@@ -7,6 +7,7 @@ Responsible for manipulating and drawing text onto images
 from datetime import datetime
 from os import path as ospath, makedirs
 
+from textwrap3 import wrap
 from PIL import Image, ImageDraw, ImageFont
 from .exceptions import MemeGenerationException
 
@@ -32,23 +33,43 @@ class Engine():
     def draw(self, img: Image, text) -> Image:
         """Draw the quote over the image."""
         img_w, img_h = img.size
-
         draw = ImageDraw.Draw(img)
-        text_w, text_h = draw.textsize(text, font=self.txt_font)
 
-        margin = 50
-        pos_x = img_w - text_w - margin
-        pos_y = img_h - text_h - margin
+        total_h = 0
+        longest_w = 0
+        longest_text = None
+        wrapped = wrap(text, 30)
+        for line in wrapped:
+            text_w, text_h = draw.textsize(line, font=self.txt_font)
+            total_h += text_h
+            if text_w > longest_w:
+                longest_w = text_w
+                longest_text = line
+
+        # space between textbox and image edges
+        margin = 45
+
+        # space between text and textbox edges
+        padding = 18
+
+        pos_x = img_w - longest_w - margin
+        pos_y = img_h - total_h - margin
         position = (pos_x, pos_y)
 
-        box_pad = 15
-        expand = box_pad * 2
-        negated = (position[0] - box_pad, position[1] - box_pad)
-        bbox = draw.textbbox(negated, text, font=self.txt_font)
-        expanded = (bbox[0], bbox[1], bbox[2] + expand, bbox[3] + expand)
+        # adjustments needed for the text to be
+        # properly positioned within the box
+        expand = padding * 2
+        negated = (position[0] - padding, position[1] - padding)
+
+        bbox = draw.textbbox(negated, longest_text, font=self.txt_font)
+        left, top, right, bottom = bbox
+        expanded = (left, top, right + expand, bottom + total_h + padding)
         draw.rectangle(expanded, fill=(0, 0, 0))
 
-        draw.text(position, text, (255, 255, 255), font=self.txt_font)
+        for line in wrapped:
+            draw.text(position, line, (255, 255, 255), font=self.txt_font)
+            pos_y += self.txt_font.getsize(line)[1]
+            position = (pos_x, pos_y)
 
         return img
 
