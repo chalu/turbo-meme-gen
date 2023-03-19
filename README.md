@@ -9,7 +9,7 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
 <br>
 ![meme sample](./docs/meme-3.jpg "sample meme")
 
-### Usage:
+## Usage:
 
 1.  CLI - generate memes from the command line
     -   clone the [github repo](https://github.com/chalu/turbo-meme-gen) and cd into the `src` folder inside the repo's folder
@@ -29,8 +29,8 @@ A simple meme generator exposed as a CLI, web app, and REST API. You can specify
     -H "Content-type: application/json" \
     -d '{"image_url": "https://dailypost.ng/wp-content/uploads/2023/02/Peter-Obi.jpg", "body": "Vote mama, papa, pikin", "author": "Peter Obi"}'
     ```
-    <br>
-    Both the `POST` and `GET` requests should return a response payload like <br>
+
+    > Both the `POST` and `GET` requests should return a response payload like <br>
     ```json
     {
         "meme": "https://turbo-meme-generator.onrender.com/static/meme-image.jpg"
@@ -76,3 +76,7 @@ Under the hood, the system uses a number of submodules to handle specific aspect
 ![custom parser](./docs/custom-parser.png "custom parser")
 
 <br>
+
+## TODOs
+
+1.  Remove the author delimeter character (i.e -) from quote bodies
