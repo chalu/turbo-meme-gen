@@ -1,3 +1,5 @@
+"""Module to generate and serve memes on the web."""
+
 import os
 import random
 import requests
@@ -13,9 +15,9 @@ _QUOTES_DIR = "./_data/DogQuotes/"
 app = Flask(__name__)
 meme = MemeEngine('./static')
 
-def setup():
-    """ Load all resources """
 
+def setup():
+    """Load all resources."""
     quotes = Utils.get_quotes_for_meme(_QUOTES_DIR)
     imgs = Utils.get_imgs_for_meme(_IMAGES_DIR)
 
@@ -27,8 +29,7 @@ quotes, imgs = setup()
 
 @app.route('/')
 def meme_rand():
-    """ Generate a random meme """
-
+    """Generate a random meme."""
     img = random.choice(imgs)
     quote = random.choice(quotes)
     path = meme.generate(img, quote.body, quote.author)
@@ -36,20 +37,19 @@ def meme_rand():
     if req.content_type == 'application/json':
         url = f"{req.base_url.strip('/')}{path.strip('.')}"
         return {"meme": url}
-    
+
     return render_template('meme.html', path=path)
 
 
 @app.route('/create', methods=['GET'])
 def meme_form():
-    """ Take user input for meme information """
+    """Take user input for meme information."""
     return render_template('meme_form.html')
 
 
 @app.route('/create', methods=['POST'])
 def meme_post():
-    """ Create a user defined meme """
-
+    """Create a user defined meme."""
     img = "https://placehold.co/500x500?text=Something+Went+Wrong"
 
     body = None
@@ -58,11 +58,11 @@ def meme_post():
 
     if req.content_type == 'application/json':
         image_url = req.json['image_url'].strip()
-        body  = req.json['body'].strip()
+        body = req.json['body'].strip()
         author = req.json['author'].strip()
     elif req.content_type == "application/x-www-form-urlencoded":
         image_url = req.form['image_url'].strip()
-        body  = req.form['body'].strip()
+        body = req.form['body'].strip()
         author = req.form['author'].strip()
 
     img_file = None
@@ -82,6 +82,7 @@ def meme_post():
         return {"meme": url}
 
     return render_template('meme.html', path=img)
+
 
 if __name__ == "__main__":
     app.run()

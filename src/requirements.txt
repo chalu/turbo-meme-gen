@@ -13,7 +13,9 @@ MarkupSafe==2.1.2
 Pillow==9.4.0
 python-docx==0.8.11
 requests==2.28.2
+snowballstemmer==2.2.0
 striprtf==0.0.22
+textwrap3==0.9.2
 urllib3==1.26.15
 Werkzeug==2.2.3
 zipp==3.15.0

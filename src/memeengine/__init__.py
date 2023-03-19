@@ -1,7 +1,7 @@
 """
-The meme engine module
-Handles manipulating images, drawing text onto images,
-and generating memes
+The Meme Engine module.
+
+Responsible for manipulating and drawing text onto images
 """
 
 from .engine import Engine as MemeEngine

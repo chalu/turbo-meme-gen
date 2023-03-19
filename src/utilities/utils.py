@@ -1,12 +1,16 @@
-import os
+"""Utilities for all other modules."""
 
+import os
 import filetype
 
 from quoteengine import SmartIngestor, Quote
 
+
 class Utils():
+    """A collection of utilities for other modules."""
 
     def get_quotes_for_meme(quotes_dir, body=None, author=None):
+        """Get the list of quotes from available files."""
         quotes = []
 
         if body is None:
@@ -25,6 +29,7 @@ class Utils():
         return quotes
 
     def get_imgs_for_meme(images_dir, path=None):
+        """Get the list of images from available files."""
         imgs = []
         images = filetype.image_matchers
         if path is None:
@@ -34,12 +39,16 @@ class Utils():
                 # pull all the files
                 imgs = [os.path.join(root, name) for name in files]
                 # only the image files
-                imgs = [file for file in imgs if filetype.match(file, matchers=images) is not None]
+                imgs = [
+                    file for file in imgs
+                    if filetype.match(file, matchers=images) is not None
+                ]
 
         else:
             if filetype.match(path, matchers=images) is not None:
                 imgs = [path]
             else:
-                raise ValueError("path does not appear to be a valid image file")
+                msg = "path does not appear to be a valid image file"
+                raise ValueError(msg)
 
         return imgs

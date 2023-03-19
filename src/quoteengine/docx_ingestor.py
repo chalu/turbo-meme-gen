@@ -1,4 +1,4 @@
-"""Ingest and format quotes from CSV files"""
+"""Ingest and format quotes from DOCX files."""
 
 from typing import List
 from docx import Document as DocX
@@ -9,18 +9,16 @@ from .exceptions import InvalidFileException, UnsupportedFileException
 
 
 class DocxQuotesIngestor(QuoteIngestor):
-    """Quotes ingestor from CSV files"""
+    """Quotes ingestor from DOCX files."""
 
     @classmethod
     def whitelist(cls) -> List[str]:
-        """Gets the allowed file extensions for ingesting quotes from CSV files"""
-
+        """Get allowed DOCX file extensions."""
         return ["docx"]
 
     @classmethod
     def parse(cls, path: str) -> List[Quote]:
-        """Reads quotes from the path if it is a DOCX file"""
-
+        """Read quotes from path if it is a DOCX file."""
         parsed = []
         if DocxQuotesIngestor.handles(path):
             try:

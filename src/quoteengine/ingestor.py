@@ -1,4 +1,4 @@
-"""An abstract ingestor class for quotes"""
+"""An abstract ingestor class for quotes."""
 
 from typing import List
 from abc import ABC, abstractmethod
@@ -7,33 +7,32 @@ from .quote import Quote
 
 
 class QuoteIngestor(ABC):
-    """An abstract ingestor interface that concrete ingestors must implement"""
+    """Abstract ingestor that concrete ingestors must implement."""
 
     @classmethod
     def invalids(cls) -> str:
-        """Invalid leading/lagging characters that the ingestor can strip out of quotes"""
+        """Get invalid leading/lagging char to strip from quotes."""
         return " \"\'"
 
     @classmethod
     def extention(cls, path: str) -> str:
-        """Returns the extension of the file indicated with path"""
+        """Return the extension of the file indicated with path."""
         return path.split('.')[-1]
 
     @classmethod
     def handles(cls, path: str) -> bool:
-        """Returns true if this ingestor can parse files indicated in path, else false"""
+        """Return true if path has supported extension, else false."""
         ext = cls.extention(path)
         return ext in cls.whitelist()
 
     @classmethod
     @abstractmethod
     def whitelist(cls) -> List[str]:
-        """Gets the allowed file extensions for an ingestor. Pls override on a per-ingestor basis"""
-
+        """Get allowed file extensions."""
         return [""]
 
     @classmethod
     @abstractmethod
     def parse(cls, path: str) -> List[Quote]:
-        """Reads quotes from the path if supported. Pls override on a per-ingestor basis"""
+        """Read quotes from path if supported."""
         return [""]

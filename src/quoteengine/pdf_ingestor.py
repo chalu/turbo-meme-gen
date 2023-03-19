@@ -1,4 +1,4 @@
-"""Ingest and format quotes from PDF files"""
+"""Ingest and format quotes from PDF files."""
 
 import subprocess as sp
 from typing import List
@@ -12,19 +12,19 @@ from .exceptions import InvalidFileException, UnsupportedFileException
 
 class PDFQuotesIngestor(QuoteIngestor):
     """
-    Quotes ingestor from PDF files
+    Quotes ingestor from PDF files.
+
     Uses subprocess to call the pdftotext program from the xpdf CLI tools.
     See https://www.xpdfreader.com/about.html
     """
 
     @classmethod
     def whitelist(cls) -> List[str]:
-        """Gets the allowed file extensions for ingesting quotes from PDF files"""
-
+        """Get allowed PDF file extensions."""
         return ["pdf"]
 
     def pdftotext(self, path, out_file):
-        #Generate a text rendering of a PDF file in the form of a list of lines.
+        """Generate a text rendering of a PDF file as a list of lines."""
         args = ['pdftotext', '-layout', path, out_file]
         cp = sp.run(
             args, stdout=sp.PIPE, stderr=sp.DEVNULL,
@@ -34,8 +34,7 @@ class PDFQuotesIngestor(QuoteIngestor):
 
     @classmethod
     def parse(cls, path: str) -> List[Quote]:
-        """Reads quotes from the path if it is a PDF file"""
-
+        """Read quotes from path if it is a PDF file."""
         parsed = []
         if PDFQuotesIngestor.handles(path):
             try:
@@ -50,7 +49,10 @@ class PDFQuotesIngestor(QuoteIngestor):
                 with open(temp_txt_file, encoding="UTF-8") as file:
                     invalid_chars = PDFQuotesIngestor.invalids()
                     for line in file:
-                        parts = [pt.strip(invalid_chars) for pt in line.split("-")]
+                        parts = [
+                            pt.strip(invalid_chars)
+                            for pt in line.split("-")
+                        ]
                         if len(parts) < 2:
                             continue
 
